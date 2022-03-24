@@ -17,7 +17,7 @@ PHASE_EWL_YELLOW = 7
 
 
 class Simulation():
-    def __init__(self,Model1,Model2 ,Memory1,Memory2,  TrafficGen, sumo_cmd, gamma, max_steps, green_duration, yellow_duration, num_cells, num_states, num_actions, training_epochs):
+    def __init__(self,Model1 ,Model2 ,Memory1,Memory2,  TrafficGen, sumo_cmd, gamma, max_steps, green_duration, yellow_duration, num_cells, num_states, num_actions, training_epochs):
         self._Model1 = Model1
         self._Model2 = Model2
         self._Memory1 = Memory1
@@ -53,14 +53,14 @@ class Simulation():
         self._avg_density = []
         self._avg_flow = []
         self._list_occupancy = []
-        
+
 
 
     def run(self, episode, epsilon):
         """
         Runs an episode of simulation, then starts a training session
         """
-        
+
         start_time = timeit.default_timer()
 
         # first, generate the route file for this simulation and set up sumo

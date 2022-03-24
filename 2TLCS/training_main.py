@@ -57,15 +57,15 @@ def gpu_available():
         print("Please install GPU version of TF")
         
         
-def launch_process(simulation, episode, epsilon, mode, return_dict):
+"""def launch_process(simulation, episode, epsilon, mode, return_dict):
      '''
      Launches the simulation process and returns the simulation data when it is finished
      '''
      simulation.run(episode, epsilon)
      return_dict[mode] = simulation.stop()
+"""
 
-
-def save_to_visualize(measurements):
+"""def save_to_visualize(measurements):
      '''
      Method to save and visualize data (in order to avoid repetitions)
      '''
@@ -73,7 +73,7 @@ def save_to_visualize(measurements):
          data, filename, title, xlabel, ylabel = m[0], m[1], m[2], m[3], m[4]
          scenarios=['High', 'Low']
          Visualization.save_data_and_plot_multiple_curves(list_of_data=[[data[i] for i in range(len(data)) if i%4==0], [data[i] for i in range(len(data)) if i%4==1], [data[i] for i in range(len(data)) if i%4==2], [data[i] for i in range(len(data)) if i%4==3]], filename=filename, title=title, xlabel=xlabel, ylabel=ylabel, scenarios=scenarios)
-
+"""
 
 if __name__ == "__main__":
     
@@ -96,12 +96,12 @@ if __name__ == "__main__":
         #config['art_queue']
     )
     # Low traffic generator
-    TrafficGen_2 = TrafficGenerator(
+    """TrafficGen_2 = TrafficGenerator(
         config['max_steps'],
         config['n_cars_generated_high'],
         #config['art_queue']
     )
-
+    """
     Model1 = TrainModel(
         config['num_layers'], 
         config['width_layers'], 
@@ -160,7 +160,7 @@ if __name__ == "__main__":
     #Simulation with High traffic
     Sim = Simulation(
         Model1,
-        Memory2,
+        Memory1,
         Model2,
         Memory2,
         TrafficGen,
@@ -176,7 +176,7 @@ if __name__ == "__main__":
     )
 
     # Simulation with Low traffic
-    Simulation_2 = Simulation(
+    """"Simulation_2 = Simulation(
         Model1,
         Memory2,
         Model2,
@@ -191,7 +191,7 @@ if __name__ == "__main__":
         config['num_states'],
         config['num_actions'],
         config['training_epochs']
-    )
+    )"""
     
 
     
@@ -259,38 +259,40 @@ if __name__ == "__main__":
     #Main loop
     episode = 0
     timestamp_start = datetime.datetime.now()
-    start_sim_time = timeit.default_timer()
+
 
     while episode < config['total_episodes']:
+        start_sim_time = timeit.default_timer()
         
         #manager = mp.Manager()
         #return_dict = manager.dict()
 
         print('\n----- Episode', str(episode+1), 'of', str(config['total_episodes']))
-        return_dict=[]
+        return_dict = []
         epsilon = 1.0 - (episode / config['total_episodes'])  # set the epsilon for this episode according to epsilon-greedy policy
         print("la valauer de ep", epsilon)
-        #simulation_time, training_time = Simulation.run(episode, epsilon)  # run the simulation
+        simulation_time, training_time = Simulation.run(episode, epsilon)  # run the simulation
 
         #Processes generation
         print("Launch processes")
-        pool = mp.Pool(processes=mp.cpu_count())
-        sims=[Sim]
-        mode=['HIGH']
-        for i in range(len(sims)):
+        #pool = mp.Pool(processes=mp.cpu_count())
+        #sims=[Sim]
+        #mode=['HIGH']
+        """for i in range(len(sims)):
              print('test')
              pool.apply_async(launch_process, (Sim, episode, epsilon, ["HIGH"], return_dict),).get()
              print('end test')
         print('yup')
         pool.close()
-        pool.join()
-        simulation_time, training_time = Simulation.run(episode, epsilon)  # run the simulation
+        pool.join()"""
+        #simulation_time, training_time = Simulation.run(episode, epsilon)  # run the simulation
         print('Simulation time:', simulation_time, 's - Training time:', training_time, 's - Total:', round(simulation_time+training_time, 1), 's')
         episode += 1
-        total = round(timeit.default_timer() - start_sim_time, 1)
-        print('Simulation time:', simulation_time, 's - Training time:', training_time, 's - Total:', round(simulation_time+training_time, 1), 's')
+        #total = round(timeit.default_timer() - start_sim_time, 1)
+        #print('Simulation time:', simulation_time, 's - Training time:', training_time, 's - Total:', round(simulation_time+training_time, 1), 's')
 
         #Replay
+        """
         print("Training...")
         start_time = timeit.default_timer()
         print("First agent replays")
@@ -323,26 +325,27 @@ if __name__ == "__main__":
         if(len(model_loss_agent_two) > 0):
              AVG_LOSS_A2.append(sum(model_loss_agent_two)/config['training_epochs'])
              MIN_LOSS_A2.append(min(model_loss_agent_two))
-        return_dict[mode] = Simulation.stop()
-        for m in mode:
-            REWARD_STORE.append(return_dict[m][0])
-            REWARD_STORE_A1.append(return_dict[m][1])
-            REWARD_STORE_A2.append(return_dict[m][2])
-            CUMULATIVE_WAIT_STORE.append(return_dict[m][3])
-            CUMULATIVE_WAIT_STORE_A1.append(return_dict[m][4])
-            CUMULATIVE_WAIT_STORE_A2.append(return_dict[m][5])
-            AVG_QUEUE_LENGTH_STORE.append(return_dict[m][6])
-            AVG_QUEUE_LENGTH_STORE_A1.append(return_dict[m][7])
-            AVG_QUEUE_LENGTH_STORE_A2.append(return_dict[m][8])
-            AVG_WAIT_TIME_PER_VEHICLE.append(return_dict[m][9])
-            AVG_WAIT_TIME_PER_VEHICLE_A1.append(return_dict[m][10])
-            AVG_WAIT_TIME_PER_VEHICLE_A2.append(return_dict[m][11])
-            DENSITY.append(return_dict[m][12])
-            FLOW.append(return_dict[m][13])
-            OCCUPANCY.append(return_dict[m][14])
+        """
+        return_dict = Simulation.stop()
+
+        REWARD_STORE.append(return_dict[0])
+        REWARD_STORE_A1.append(return_dict[1])
+        REWARD_STORE_A2.append(return_dict[2])
+        CUMULATIVE_WAIT_STORE.append(return_dict[3])
+        CUMULATIVE_WAIT_STORE_A1.append(return_dict[4])
+        CUMULATIVE_WAIT_STORE_A2.append(return_dict[5])
+        AVG_QUEUE_LENGTH_STORE.append(return_dict[6])
+        AVG_QUEUE_LENGTH_STORE_A1.append(return_dict[7])
+        AVG_QUEUE_LENGTH_STORE_A2.append(return_dict[8])
+        AVG_WAIT_TIME_PER_VEHICLE.append(return_dict[9])
+        AVG_WAIT_TIME_PER_VEHICLE_A1.append(return_dict[10])
+        AVG_WAIT_TIME_PER_VEHICLE_A2.append(return_dict[11])
+        DENSITY.append(return_dict[12])
+        FLOW.append(return_dict[13])
+        OCCUPANCY.append(return_dict[14])
             
         
-        episode += 1
+        #episode += 1
 
     print("\n----- Start time:", timestamp_start)
     print("----- End time:", datetime.datetime.now())

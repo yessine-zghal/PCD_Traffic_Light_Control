@@ -8,11 +8,8 @@
     </input>
 
     <time>
-      <begin value="0"/>
+      <begin value="500"/>
+      <end value="100000000000000"/>
     </time>
-
-    <processing>
-        <time-to-teleport value="-1"/>
-    </processing>
 
 </configuration>
