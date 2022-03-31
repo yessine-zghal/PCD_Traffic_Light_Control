@@ -1,0 +1,15 @@
+# learning params
+learning_rate: 0.00001
+gamma: 0.95
+buffer_limit: 500000
+batch_size: 128
+sim_len: 4500
+mem_refill: 1000
+epochs: 1600
+n_cars: 1000
+weights_path: ''
+
+# SUMO params
+sumoBinary: ""
+sumoCmd: ""
+sumoTools: ""
