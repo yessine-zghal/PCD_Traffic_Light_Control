@@ -37,7 +37,7 @@ class TrafficGenerator:
         y_values = scipy.stats.norm(mean, standard_deviation)
 
         # produce the file for cars generation, one car per line
-        with open(os.path.join(os.getcwd(),"PCD_Traffic_Light_Control","DDQN","intersection/episode_routes.rou.xml", "w")) as routes:
+        with open(os.path.join(os.getcwd(),"PCD_Traffic_Light_Control","DDQN","intersection/episode_routes.rou.xml"), "w") as routes:
             print("""<routes>
             <vType accel="1.0" decel="4.5" id="standard_car" length="5.0" minGap="2.5" maxSpeed="25" sigma="0.5" />
 
