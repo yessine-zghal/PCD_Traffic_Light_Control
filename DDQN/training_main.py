@@ -66,7 +66,7 @@ if __name__ == "__main__":
     print("Number of processors: ", mp.cpu_count())
     
     #import the configuration file
-    config = import_train_configuration(config_file='training_settings.ini')
+    config = import_train_configuration(config_file=os.path.join(os.getcwd(),"PCD_Traffic_Light_Control","DDQN",'training_settings.ini'))
     sumo_cmd = set_sumo(config['gui'], config['sumocfg_file_name'], config['max_steps'])
     path = set_train_path(config['models_path_name'])
     
