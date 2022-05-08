@@ -165,7 +165,7 @@ if __name__ == "__main__":
 
     #inititalization of the agent via Flask server
     print("Initialization of the agent")
-    requests.post('http://127.0.0.1:5000/initialize_agent', json={'num_layers': config['num_layers'], 
+    requests.post('http://40.86.97.4:5000/initialize_agent', json={'num_layers': config['num_layers'], 
         'width_layers': config['width_layers'], 
         'batch_size': config['batch_size'], 
         'learning_rate': config['learning_rate'], 
@@ -214,7 +214,7 @@ if __name__ == "__main__":
         start_time = timeit.default_timer()
         model_loss=[]
         for _ in range(config['training_epochs']):
-            tr_loss = requests.post('http://127.0.0.1:5000/replay', json={'num_states': config['num_states'],
+            tr_loss = requests.post('http://40.86.97.4:5000/replay', json={'num_states': config['num_states'],
                                                               'num_actions': config['num_actions'],
                                                               'gamma': config['gamma']}).json()['loss']
             model_loss.append(tr_loss)
@@ -248,7 +248,7 @@ if __name__ == "__main__":
     print("----- End time:", datetime.datetime.now())
     print("----- Session info saved at:", path)
 
-    requests.post('http://127.0.0.1:5000/save_model', json={'path': path})
+    requests.post('http://40.86.97.4:5000/save_model', json={'path': path})
     #Model.save_model(path)
 
     copyfile(src='training_settings.ini', dst=os.path.join(path, 'training_settings.ini'))

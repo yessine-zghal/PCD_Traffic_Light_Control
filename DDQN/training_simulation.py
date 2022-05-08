@@ -92,7 +92,7 @@ class Simulation():
                 #self._Memory.add_sample((old_state, old_action, reward, current_state))
                 #print(type(old_state), type(old_action), type(reward), type(current_state))
                 #print(type(old_state.tolist()))
-                requests.post('http://127.0.0.1:5000/add_sample', json={'old_state':  old_state.tolist(),
+                requests.post('http://40.86.97.4:5000/add_sample', json={'old_state':  old_state.tolist(),
                                                                     'old_action': int(old_action),
                                                                     'reward': reward,
                                                                     'current_state': current_state.tolist()})
@@ -128,7 +128,7 @@ class Simulation():
         # start_time = timeit.default_timer()
         # for _ in range(self._training_epochs):
         #     #self._replay()
-        #     tr_loss = requests.post('http://127.0.0.1:5000/replay', json={'num_states': self._num_states,
+        #     tr_loss = requests.post('http://40.86.97.4:5000/replay', json={'num_states': self._num_states,
         #                                                       'num_actions': self._num_actions,
         #                                                       'gamma': self._gamma}).json()['loss']
         #     #print(tr_loss)
@@ -190,7 +190,7 @@ class Simulation():
         if random.random() < epsilon:
             return random.randint(0, self._num_actions - 1) # random action
         else:
-            pred = np.array(requests.post('http://127.0.0.1:5000/predict', json={'state': state.tolist()}).json()['prediction'])
+            pred = np.array(requests.post('http://40.86.97.4:5000/predict', json={'state': state.tolist()}).json()['prediction'])
             return np.argmax(pred)
             #return np.argmax(self._Model.predict_one(state)) # the best action given the current state
 
